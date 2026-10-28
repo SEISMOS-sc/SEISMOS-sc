@@ -13,8 +13,6 @@
 
 SEISMOS uses a single decision threshold, requires no large language model calls for boundary detection, and runs in linear time with respect to the number of sentences.
 
-**Project website:** https://seismos-sc.github.io/
-
 ## Overview
 
 Document chunking determines how information is divided before it is indexed, retrieved, and passed to a language model in a retrieval augmented generation (RAG) system. Fixed length chunking can split related information across boundaries, while semantic chunkers can introduce unnecessary fragmentation or incur substantial preprocessing costs.
@@ -37,61 +35,6 @@ According to our reported experiments:
 | Multilingual evaluation | Competitive performance across Japanese, German, and Arabic without language specific tuning |
 
 These results reflect the experiments reported on the project website. Performance may vary with the embedding model, corpus, retrieval configuration, and downstream generation model.
-
-## Method
-
-SEISMOS consists of three main steps.
-
-### 1. Construct the similarity signal
-
-Given a document containing sentences \(s_1, s_2, \ldots, s_n\), an embedding model produces normalized sentence embeddings:
-
-\[
-e_i = \operatorname{Embed}(s_i)
-\]
-
-The cosine similarity between consecutive sentences defines the signal:
-
-\[
-x_i = \cos(e_i,e_{i+1})
-\]
-
-A sharp valley in this signal may indicate a transition between topics. However, ordinary local minima can also arise from noise or minor changes in wording.
-
-### 2. Compute the discrete Laplacian
-
-SEISMOS measures the local curvature of the similarity signal using the second difference:
-
-\[
-D_i = x_{i+1} - 2x_i + x_{i-1}
-\]
-
-This statistic responds to sharp valleys rather than treating every decrease in similarity as a boundary.
-
-The method accounts for the variability and autocorrelation observed in consecutive sentence similarities. Under the null hypothesis of no semantic transition, the detector uses a self normalized statistic:
-
-\[
-t_i = \frac{D_i}{\hat{s}_D}
-\]
-
-where \(\hat{s}_D\) is the standard deviation of the second difference signal.
-
-### 3. Detect semantic boundaries
-
-A boundary is selected when the normalized statistic exceeds the decision threshold:
-
-\[
-t_i > k
-\]
-
-The reported default is:
-
-\[
-\boxed{k=2.5}
-\]
-
-This threshold is kept fixed across the evaluated benchmarks. The method does not require a separately tuned threshold for each corpus.
-
 
 ## Experimental Evaluation
 
