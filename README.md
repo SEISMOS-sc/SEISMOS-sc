@@ -7,13 +7,14 @@
   <b>Mominul Islam</b><sup>2</sup> &middot;
   <b>Shahriyar Zaman Ridoy</b><sup>3,5</sup> &middot;
   <b>Md Manjurul Ahsan</b><sup>4,5</sup> &middot;
-  <b>Azmine Toushik Wasi</b><sup>5</sup>
+  <b>Azmine Toushik Wasi</b><sup>5,6</sup>
   <br>
   <sup>1</sup>Rajshahi University of Engineering &amp; Technology &nbsp;
   <sup>2</sup>Tulane University &nbsp;
   <sup>3</sup>North South University &nbsp;
   <sup>4</sup>University of Oklahoma &nbsp;
-  <sup>5</sup>CIOL
+  <sup>5</sup>CIOL &nbsp;
+  <sup>6</sup>University of Surrey
   <br><br>
   <b>NeurIPS 2026</b>
 </p>
