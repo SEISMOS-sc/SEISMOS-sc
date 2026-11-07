@@ -1,0 +1,14 @@
+# Table 1 (SEISMOS rows) and phase progression. BGE, no query instruction, no token cap.
+name: beir_main
+benchmark: beir
+subsets: [arguana, fiqa, nfcorpus, scifact, trec-covid]
+dataset_args:
+  data_dir: data/beir
+encoders: [bge]
+encoder_args:
+  query_prefix: ""
+levels: [doc]
+methods:
+  - {method: seismos, k: 2.5, max_tokens: null}
+  - {method: zscore, k: 2.5, epsilon: 0.04, max_tokens: null}
+  - {method: prominence, alpha: 0.05, max_tokens: null}

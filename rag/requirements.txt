@@ -1,0 +1,29 @@
+# pip install -r requirements.txt && python -m spacy download en_core_web_sm
+
+-e ..
+
+numpy>=1.24,<2.0
+pandas>=2.0
+scipy>=1.10
+PyYAML>=6.0
+tqdm>=4.65
+
+torch>=2.1
+transformers>=4.44,<5       # HHEM's remote code does not import under 5.x
+sentence-transformers>=3.0
+accelerate>=0.30
+
+faiss-cpu>=1.7.4
+datasets>=2.19
+spacy>=3.7,<4.0
+
+# baseline chunkers
+langchain-text-splitters>=0.2
+langchain-core>=0.2
+langchain-experimental>=0.0.60
+llama-index-core>=0.10
+
+# generation.quantization: 4bit / 8bit
+bitsandbytes>=0.43 ; platform_system != "Darwin"
+
+pytest>=7.4

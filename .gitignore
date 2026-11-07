@@ -1,0 +1,15 @@
+# downloaded datasets, pools and caches
+/data/
+/cache/
+# experiment outputs
+/results/
+/rag/results/
+/rag/cache/
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/

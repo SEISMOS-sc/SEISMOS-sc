@@ -1,0 +1,16 @@
+# Table 2, MIRACL (dev, 200 queries, 30k-article pool).
+name: miracl
+benchmark: miracl
+subsets: [ja, de, ar]
+dataset_args:
+  split: dev
+  n_queries: 200
+  corpus_docs: 30000
+  pool_source: mteb
+  seed: 42
+  cache_dir: data/miracl
+encoders: [gte-multi]
+levels: [chunk]
+methods:
+  - {method: fixed, max_tokens: 480}
+  - {method: seismos, k: 2.5, max_tokens: 480}

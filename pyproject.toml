@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seismos"
+version = "1.0.0"
+description = "SEISMOS: semantic chunking as statistical boundary detection"
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.24",
+    "nltk>=3.8",
+    "torch>=2.1",
+    "sentence-transformers>=3.0",
+]
+
+[project.optional-dependencies]
+experiments = [
+    "faiss-cpu>=1.7.4",
+    "pytrec-eval-terrier>=0.5.6",
+    "rank-bm25>=0.2.2",
+    "datasets>=2.19",
+    "huggingface-hub>=0.23",
+    "pyarrow>=14",
+    "pandas>=2.0",
+    "tabulate>=0.9",
+    "PyYAML>=6.0",
+    "requests>=2.31",
+    "tqdm>=4.65",
+]
+baselines = [
+    "langchain-text-splitters>=0.2",
+    "langchain-experimental>=0.0.60",
+    "llama-index-core>=0.10",
+]
+dev = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+include = ["seismos*"]
+exclude = ["rag*", "tests*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

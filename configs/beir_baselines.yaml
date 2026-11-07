@@ -1,0 +1,15 @@
+# Table 1 baseline rows. Report the best size / mode per dataset (make_tables.py --best-of).
+name: beir_baselines
+benchmark: beir
+subsets: [arguana, fiqa, nfcorpus, scifact, trec-covid]
+dataset_args:
+  data_dir: data/beir
+encoders: [bge]
+encoder_args:
+  query_prefix: ""
+levels: [doc]
+methods:
+  - {method: fixed_chars, chunk_size: [256, 512, 768, 1024], overlap: 0.10}
+  - {method: recursive_chars, chunk_size: [256, 512, 768, 1024], overlap: 0.10}
+  - {method: langchain, threshold_type: [percentile, standard_deviation, interquartile, gradient]}
+  - {method: llamaindex, buffer_size: 1, percentile: 95}

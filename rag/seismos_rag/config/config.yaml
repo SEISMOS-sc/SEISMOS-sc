@@ -1,0 +1,124 @@
+# SEISMOS RAG evaluation. CLI flags override this file; the resolved config is
+# saved to results/config_used.json.
+
+experiment:
+  name: seismos_longbench_narrativeqa
+  tag: v1
+
+seed: 42
+
+determinism:
+  strict_determinism: false         # torch.use_deterministic_algorithms; may raise on some kernels
+  cudnn_deterministic: true
+  cudnn_benchmark: false
+
+dataset:
+  name: narrativeqa
+  hf_repos:                         # first one that resolves is used
+    - THUDM/LongBench
+    - zai-org/LongBench
+  split: test
+  num_samples: 200
+  cache_dir: cache/dataset
+  verify_unmodified: true
+
+sentence_splitter:
+  backend: spacy
+  spacy_model: en_core_web_sm
+  spacy_pipe: senter                # senter | parser
+  max_length: 4000000
+  cache_dir: cache/sentences
+
+embedding:
+  model: e5                         # e5 | bge | gte
+  batch_size: 64
+  fp16: true
+  normalize: true
+  cache_dir: cache/embeddings
+  cache_sentence_embeddings: true
+  cache_chunk_embeddings: true
+
+chunking:
+  max_tokens: 480
+  cap_all_chunkers: true
+
+  fixed:
+    target_tokens: 480
+
+  recursive:
+    chunk_size: 480                 # encoder tokens
+    chunk_overlap: 0
+    separators: ["\n\n", "\n", ". ", " ", ""]
+
+  langchain_semantic:
+    breakpoint_threshold_type: percentile   # percentile | standard_deviation | interquartile | gradient
+    breakpoint_threshold_amount: 95
+    buffer_size: 1
+    min_chunk_size: null
+
+  llamaindex_semantic:
+    buffer_size: 1
+    breakpoint_percentile_threshold: 95
+
+  seismos:
+    k: 2.5
+    k_sweep: [1.5, 2.0, 2.5, 3.0, 3.5]
+    run_k_sweep: false
+    min_sentences: 5
+    sign_convention: canonical      # canonical (published) | valley (ablation)
+    compare_sign_conventions: false
+
+  llm_chunker:
+    enabled: false
+    model: Qwen/Qwen2.5-7B-Instruct
+    window_sentences: 8
+    max_new_tokens: 8
+
+retrieval:
+  top_k: 5
+  index_type: IndexFlatIP
+
+generation:
+  model: qwen                       # qwen | llama | HF model id
+  max_new_tokens: 128
+  temperature: 0.0                  # greedy
+  batch_size: 4
+  max_input_tokens: 3072            # longer prompts lose the middle of the context
+  device_map: auto
+  quantization: none                # none | 4bit | 8bit
+  dtype: float16
+  attn_implementation: auto         # auto (= sdpa) | sdpa | eager | flash_attention_2
+  oom_backoff: true
+  preflight: true
+  trust_remote_code: false
+
+faithfulness:
+  enabled: true
+  model: vectara/hallucination_evaluation_model
+  revision: main
+  batch_size: 8
+  max_premise_tokens: 2048
+  fail_open: true                   # write null if HHEM cannot load
+
+evidence:
+  enabled: true
+  compute_label_free_proxies: true
+
+statistics:
+  enabled: true
+  baseline_chunker: fixed
+  bootstrap_iterations: 10000
+  confidence_level: 0.95
+  multiple_comparison_correction: holm
+
+runtime:
+  device: auto                      # auto | cuda | cpu
+  unload_models_between_stages: true
+  log_gpu_memory: true
+  progress_bars: true
+
+output:
+  dir: results
+  checkpoint_dir: null              # null = <output.dir>/checkpoints
+  save_raw_generations: true
+  retrieval_csv_text_chars: null    # int truncates chunk text in retrieval_results.csv

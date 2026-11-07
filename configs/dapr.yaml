@@ -1,0 +1,15 @@
+# Table 2, DAPR (pooled, 200 docs per dataset). chunk = passage-level, doc = max-over-chunks.
+name: dapr
+benchmark: dapr
+subsets: [MSMARCO, NaturalQuestions, ConditionalQA, Genomics]
+dataset_args:
+  corpus_docs: 200
+  n_queries: 500
+  gold_frac: 0.8
+  seed: 42
+  cache_dir: data/dapr
+encoders: [e5]
+levels: [chunk, doc]
+methods:
+  - {method: fixed, max_tokens: 480}
+  - {method: seismos, k: 3.0, max_tokens: 480}

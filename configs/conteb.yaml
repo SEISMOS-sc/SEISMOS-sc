@@ -1,0 +1,9 @@
+# Table 2, ConTEB.
+name: conteb
+benchmark: conteb
+subsets: [narrativeqa, esg, geography]
+encoders: [e5]
+levels: [chunk]
+methods:
+  - {method: fixed, max_tokens: 480}
+  - {method: seismos, k: 3.0, max_tokens: 480}
