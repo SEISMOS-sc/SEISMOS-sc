@@ -108,7 +108,7 @@ boundaries = laplacian_splits(X, k=2.5)   # i in boundaries: cut after sentence 
 
 ## Results
 
-**Zero-shot BEIR**, nDCG@10 (%), BGE-base. † marks the held-out corpus, which was run with no parameter change.
+**Zero-shot BEIR Dataset**, nDCG@10 (%), BGE-base. † marks the held-out corpus, which was run with no parameter change.
 
 | Chunker | ArguAna | FiQA | NFCorpus | SciFact | TREC-COVID† |
 |:--|:-:|:-:|:-:|:-:|:-:|
